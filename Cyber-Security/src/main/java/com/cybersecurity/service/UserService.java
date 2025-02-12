@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 
 public class UserService {
@@ -17,8 +19,8 @@ public class UserService {
         userRepository.save(user);
     }
     public boolean authenticateUser(User user){
-        User existingUser = userRepository.findByUsername(user.getUsername());
-        return existingUser != null && passwordEncoder.matches(user.getPassword(), existingUser.getPassword());
+        Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
+        return existingUser.isPresent() && passwordEncoder.matches(user.getPassword(), existingUser.get().getPassword());
 
     }
     public User getUserById(Long id){

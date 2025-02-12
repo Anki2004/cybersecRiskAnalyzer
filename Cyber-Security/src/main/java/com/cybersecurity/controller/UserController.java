@@ -5,10 +5,9 @@ import com.cybersecurity.service.UserService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -29,6 +28,11 @@ public class UserController {
         }else{
             return ResponseEntity.status(404).body("Invalid Username or Password");
         }
+    }
+    @GetMapping("/id/{userId}")
+    public ResponseEntity<List<User>> getAllUser(@PathVariable Long id){
+        List<User> userList = (List<User>) userService.getUserById(id);
+        return ResponseEntity.ok(userList);
     }
 
 }
